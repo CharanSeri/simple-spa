@@ -93,8 +93,8 @@ header form {
 #media {
   display: none;
   position: absolute;
-  left: 10rem;
-  top: 10rem;
+  left: 0rem;
+  top: 15rem;
 }
 #instructions.active,
 #actors.active,
@@ -129,19 +129,18 @@ header form {
   margin: 1rem 0;
   color: hsl(20, 10%, 50%);
 }
-.card{
+.card {
   border: 2px solid black;
   border-radius: 2px;
   display: grid;
   min-height: 10rem;
 }
-.card img{
-  grid-template-columns: 1 /span 12;
-  padding: .5rem;
+.card img {
+  grid-template-columns: 1 / span 12;
+  padding: 0.5rem;
   height: 10rem;
   width: auto;
 }
-
 
 /***********************
   Effects
@@ -189,13 +188,19 @@ header form {
     position: relative;
     writing-mode: vertical-lr;
   }
-  .card{
+  .card {
     grid-template-columns: 1fr 1fr;
   }
-  .card img{
-    grid-template-columns: 1 /span 6;
+  .card img {
+    grid-template-columns: 1 / span 6;
   }
-  
+  #media {
+    top: 10rem;
+    left: 10rem;
+  }
+  #actors h2:hover {
+    cursor: pointer;
+  }
 }
 @media all and (min-width: 1000px) {
   header {
@@ -208,6 +213,8 @@ header form {
     height: 42px;
     width: 42px;
   }
-  
-  
+  #media {
+    top: 10rem;
+    left: 10rem;
+  }
 }

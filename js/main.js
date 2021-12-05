@@ -5,9 +5,10 @@ let actors = document.querySelector("#actors");
 let media = document.querySelector("#media");
 let baseImageUrl = null;
 let apiData = null;
-let searchTerm = document.getElementById("search").value;
+let searchTerm = null;
 
 let api_key = "3bc7d6ace3ce80689836d2664ae1b1ac";
+let baseUrl = "https://api.themoviedb.org/3";
 
 const APP = {
   init: () => {
@@ -15,7 +16,7 @@ const APP = {
     console.log("---> Getting Configuration");
     let form = document.querySelector("form");
     form.addEventListener("submit", SEARCH.actors);
-    let configUrl = `https://api.themoviedb.org/3/configuration?api_key=${api_key}`;
+    let configUrl = baseUrl + `/configuration?api_key=${api_key}`;
     fetch(configUrl)
       .then((response) => {
         if (response.ok) return response.json();
@@ -42,7 +43,10 @@ const SEARCH = {
     console.log("---> Fetching Talent!");
     instructions.classList.remove("active");
     actors.classList.add("active");
-    let url = `https://api.themoviedb.org/3/search/person?api_key=${api_key}&query=${searchTerm}`;
+    searchTerm = document.getElementById("search").value;
+    let url =
+      baseUrl +
+      `/search/person?api_key=${api_key}&language=en-US&query=${searchTerm}&page=1&include_adult=false`;
     fetch(url)
       .then((response) => {
         if (response.ok) return response.json();
@@ -75,12 +79,12 @@ const ACTORS = {
     actorsData.forEach((element) => {
       let div = document.createElement("div");
       let img = document.createElement("img");
-      img.setAttribute("src", baseImageUrl + element.profile_path);
       let h4 = document.createElement("h4");
-      h4.innerHTML = element.name;
       let p = document.createElement("p");
-      p.innerHTML = element.popularity;
       let divText = document.createElement("div");
+      img.setAttribute("src", baseImageUrl + element.profile_path);
+      h4.innerHTML = element.name;
+      p.innerHTML = element.popularity;
       div.classList.add("card");
       divText.appendChild(h4);
       divText.appendChild(p);
@@ -91,9 +95,13 @@ const ACTORS = {
       div.setAttributeNode(actorId);
       actors.children[1].style.gap = "1rem";
       actors.children[1].appendChild(div);
-      actors.children[1].addEventListener("click", MEDIA.actorInfo);
+      var cards = document.getElementsByClassName("card");
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', MEDIA.actorInfo);
+    }
+
     });
-    console.log("---> Fetching Talent Success");
+    console.log("---> No Cards Available");
     console.log("---> Talent displayed Successfully");
     console.log("---> Click On image For Additional Info");
   },
@@ -102,34 +110,48 @@ const ACTORS = {
 //media is for changes connected to content in the media section
 const MEDIA = {
   actorInfo: (event) => {
+
+    let children = media.children[1];
+    
+      let lastChild = children.lastElementChild;
+      while (lastChild) {
+        children.removeChild(lastChild);
+        lastChild = children.lastElementChild;
+      }
     media.classList.add("active");
     actors.children[1].style.display = "none";
     actors.children[0].addEventListener("click", SEARCH.actors);
-
-   let actor =  apiData.results.filter(
+    console.log("--> Getting Talent Details");
+    let actor = apiData.results.filter(
       (element) =>
-        element.id === event.target.parentElement.getAttribute("data-actorId")
+        element.id == event.target.parentElement.getAttribute("data-actorId")
     );
 
-    actor.results.known_for.forEach(element=>{
+    console.log(actor[0].known_for);
+
+    actor[0].known_for.forEach((element) => {
       let div = document.createElement("div");
+      div.style.display = "flex";
+      div.style.flexWrap = "wrap";
+      div.style.flexDirection = "Column";
+      let card = document.createElement("div");
       let img = document.createElement("img");
-      img.setAttribute("src", baseImageUrl + element.poster_path);
       let h4 = document.createElement("h4");
-      h4.innerHTML = element.name;
       let p = document.createElement("p");
-      p.innerHTML = element.popularity;
       let divText = document.createElement("div");
-      div.classList.add("card");
+
+      img.setAttribute("src", baseImageUrl + element.poster_path);
+      h4.innerHTML = element.original_title;
+      p.innerHTML = element.release_date;
+      card.classList.add("card");
       divText.appendChild(h4);
       divText.appendChild(p);
-      div.appendChild(img);
-      div.appendChild(divText);
-    })
-    console.log(
-      "--> Getting Talent Details",
-      event.target.parentElement.getAttribute("data-actorId")
-    );
+      card.appendChild(img);
+      card.appendChild(divText);
+      div.appendChild(card);
+      media.children[1].appendChild(div);
+    });
+    console.log("--> Retrived Talent Details");
   },
 };
 
