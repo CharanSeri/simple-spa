@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <script src="./js/iconic.min.js"></script>
     <script src="js/main.js" defer></script>
+    <script src="https://unpkg.com/swup@latest/dist/swup.min.js"></script>
   </head>
   <body>
     <header>
@@ -36,13 +37,29 @@
           </p>
         </div>
       </section>
-      <section id="actors" class="active">
-        <h2>Actors</h2>
+      <section id="errorMessage" class="active">
+        <h2>Error!</h2>
         <div class="content">
-          
+          <h2>There is an error with the Fetch Call</h2>
+          <ol>
+            <li><p>Makes sure the URL is Correct</p></li>
+            <li><p>Make sure Your API Keys are Valid</p></li>
+            <li><p>Make sure Your the API Servers are Running</p></li>
+            <li><p>If the Problem Persists Contact Your Provider</p></li>
+          </ol>
         </div>
       </section>
-      <section id="media">
+      <section id="filter">
+        <button type="button">Popularity</button>
+        <button type="button">Name</button>
+
+        <p><-- Click To Sort Data</p>
+      </section>
+      <section id="actors" class="active">
+        <h2>Actors</h2>
+        <div class="content"></div>
+      </section>
+      <section id="media" class="transition-fade">
         <h2>Media</h2>
         <div class="content"></div>
       </section>

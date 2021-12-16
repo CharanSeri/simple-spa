@@ -47,6 +47,20 @@ header form {
   align-items: center;
   margin-right: 1rem;
 }
+#filter button {
+  padding: 0.5rem 0.5rem;
+  background-color: hsl(20, 40%, 40%);
+  color: #fff;
+  border-radius: 10px;
+  font-size: large;
+}
+#filter {
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  display: none;
+  margin-top: 1rem;
+}
 #search {
   font-size: 1rem;
   line-height: 1;
@@ -87,19 +101,49 @@ header form {
 #instructions {
   display: none;
 }
+#errorMessage {
+  display: none;
+}
 #actors {
+  display: none;
+  opacity: 0;
+  transform: translateX(100%);
+  animation: loadIn .5s linear forwards;
+}
+#loadIngImg {
   display: none;
 }
 #media {
   display: none;
   position: absolute;
   left: 0rem;
-  top: 15rem;
+  top: 18rem;
+  opacity: 0;
+  transform: translateX(100%);
+  animation: loadIn .5s linear forwards;
 }
+
 #instructions.active,
 #actors.active,
-#media.active {
+#media.active,
+#errorMessage.active,
+#loadingImg.active {
   display: block;
+}
+
+@keyframes loadIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 #instructions h2,
 #actors h2,
@@ -140,6 +184,14 @@ header form {
   padding: 0.5rem;
   height: 10rem;
   width: auto;
+}
+.transition-fade {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+html.is-animating .transition-fade {
+  opacity: 0;
 }
 
 /***********************
@@ -214,7 +266,11 @@ header form {
     width: 42px;
   }
   #media {
-    top: 10rem;
+    top: 15rem;
     left: 10rem;
+  }
+  #filter button {
+    padding: 0.5rem 3rem;
+    margin-bottom: 1rem;
   }
 }
