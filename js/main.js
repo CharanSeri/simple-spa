@@ -58,7 +58,7 @@ const SEARCH = {
     if (event.type == "submit" || event.type == "hashchange")
       event.preventDefault();
     instructions.style.textAlign = "center";
-    instructions.innerHTML = "<img src='/img/loading-buffering.gif'/>";
+    instructions.innerHTML = "<img src='./img/loading-buffering.gif'/>";
     searchTerm = document.getElementById("search").value;
     console.log("---> User Search Term", searchTerm);
     location.href = baseWebsiteUrl + searchTerm;
